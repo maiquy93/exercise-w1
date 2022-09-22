@@ -12,31 +12,37 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="style.css" />
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Document</title>
   </head>
-  <body>
+  <body id="dashboard">
     <div class="wrapper">
+      <input type="checkbox" id="check" >
+      <label for="check" class="checkbtn">
+        <i class="fa-solid fa-bars"></i>
+      </label>
       <nav class="nav-container">
-        <input type="checkbox" id="check" />
-        <label for="check" class="checkbtn">
-          <i class="fa-solid fa-bars"></i>
-        </label>
+        <div class="userbox-backup">
+          <i class="fa-solid fa-circle-user"></i>
+          <span>Welcome John</span>
+        </div>
         <div class="logo">
-          <i class="fa-solid fa-camera-retro"></i>
+          <i id="logo-icon" class="fa-solid fa-camera-retro"></i>
           <label class="logo-title">Device Manager</label>
         </div>
         <ul class="nav-list">
           <li>
             <i class="fa-solid fa-circle-nodes"></i>
-            <a class="option" href="">Dashboard</a>
+            <a data-active="dashboard" class="option" href="dashboard.html">Dashboard</a>
           </li>
           <li>
             <i class="fa-regular fa-clock"></i>
-            <a class="option" href="">Logs</a>
+            <a data-active="logs" class="option" href="logs.html">Logs</a>
           </li>
           <li>
             <i class="fa-solid fa-gear"></i>
-            <a class="option" href="">Setting</a>
+            <a data-active="setting" class="option" href="setting.html">Setting</a>
           </li>
         </ul>
       </nav>
@@ -47,8 +53,116 @@
             <span>Welcome John</span>
           </div>
         </div>
-        <div class="content"></div>
+        <div class="content">
+          <div class="table-content">
+            <table>
+              <tr>
+                <th>Device</th>
+                <th>MAC address</th>
+                <th>IP</th>
+                <th>Created date</th>
+                <th>Power Consumption (kW/h)</th>
+              </tr>
+              <tr>
+                  <td>TV</td>
+                  <td>12-34-56-78-9A-BC</td>
+                  <td>127.0.0.2</td>
+                  <td>21-05-31</td>
+                  <td>10</td>
+              </tr>
+              <tr>
+                <td>TV</td>
+                <td>12-34-56-78-9A-BC</td>
+                <td>127.0.0.2</td>
+                <td>21-05-31</td>
+                <td>60</td>
+            </tr>
+            <tr>
+              <td>TV</td>
+              <td>12-34-56-78-9A-BC</td>
+              <td>127.0.0.2</td>
+              <td>21-05-31</td>
+              <td>50</td>
+          </tr>
+            <tr>
+            <td>Wasther</td>
+            <td>12-38-06-78-9A-GC</td>
+            <td>127.0.0.3</td>
+            <td>21-03-01</td>
+            <td>40</td>
+        </tr> 
+         <tr>
+          <td>Refigerator</td>
+          <td>10-03-56-78-9F-FB</td>
+          <td>127.0.0.2</td>
+          <td>21-06-01</td>
+          <td>60</td>
+      </tr>  
+      <tr>
+        <td>Selling fan</td>
+        <td>12-38-56-70-9A-OP</td>
+        <td>127.0.0.2</td>
+        <td>21-06-21</td>
+        <td>20</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>240</td>
+    </tr>
+            </table>
+          </div>
+          <div class="grap-content">
+            <div class="grap">
+              <h2>Hello world</h2>
+              <canvas id="mychart"></canvas>
+            </div>
+            <div class="device"></div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
+  <script>
+    let links = document.querySelectorAll("a");
+    let bodyid = document.querySelector("body").id;
+   
+    for(let link of links){
+      if(link.dataset.active == bodyid){
+        console.log(link)
+        link.classList.add("active")
+    }
+}
+
+const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  };
+    
+const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+  ];
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [0, 10, 5, 2, 20, 30, 45],
+    }]
+  };
+  const mychart = new Chart(
+  document.getElementById("mychart"), config
+);
+
+  </script>
 </html>
