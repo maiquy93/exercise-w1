@@ -18,7 +18,7 @@
   </head>
   <body id="dashboard">
     <div class="wrapper">
-      <input type="checkbox" id="check" >
+      <input type="checkbox" id="check" />
       <label for="check" class="checkbtn">
         <i class="fa-solid fa-bars"></i>
       </label>
@@ -33,16 +33,20 @@
         </div>
         <ul class="nav-list">
           <li>
-            <i class="fa-solid fa-circle-nodes"></i>
-            <a data-active="dashboard" class="option" href="dashboard.html">Dashboard</a>
+            <i class="fa-solid fa-circle-nodes icon"></i>
+            <a data-active="dashboard" class="option" href="dashboard.html"
+              >Dashboard</a
+            >
           </li>
           <li>
-            <i class="fa-regular fa-clock"></i>
+            <i class="fa-regular fa-clock icon"></i>
             <a data-active="logs" class="option" href="logs.html">Logs</a>
           </li>
           <li>
-            <i class="fa-solid fa-gear"></i>
-            <a data-active="setting" class="option" href="setting.html">Setting</a>
+            <i class="fa-solid fa-gear icon"></i>
+            <a data-active="setting" class="option" href="setting.html"
+              >Setting</a
+            >
           </li>
         </ul>
       </nav>
@@ -64,62 +68,51 @@
                 <th>Power Consumption (kW/h)</th>
               </tr>
               <tr>
-                  <td>TV</td>
-                  <td>12-34-56-78-9A-BC</td>
-                  <td>127.0.0.2</td>
-                  <td>21-05-31</td>
-                  <td>10</td>
-              </tr>
-              <tr>
                 <td>TV</td>
                 <td>12-34-56-78-9A-BC</td>
                 <td>127.0.0.2</td>
                 <td>21-05-31</td>
+                <td>50</td>
+              </tr>
+              <tr>
+                <td>Wasther</td>
+                <td>12-38-06-78-9A-GC</td>
+                <td>127.0.0.3</td>
+                <td>21-03-01</td>
                 <td>60</td>
-            </tr>
-            <tr>
-              <td>TV</td>
-              <td>12-34-56-78-9A-BC</td>
-              <td>127.0.0.2</td>
-              <td>21-05-31</td>
-              <td>50</td>
-          </tr>
-            <tr>
-            <td>Wasther</td>
-            <td>12-38-06-78-9A-GC</td>
-            <td>127.0.0.3</td>
-            <td>21-03-01</td>
-            <td>40</td>
-        </tr> 
-         <tr>
-          <td>Refigerator</td>
-          <td>10-03-56-78-9F-FB</td>
-          <td>127.0.0.2</td>
-          <td>21-06-01</td>
-          <td>60</td>
-      </tr>  
-      <tr>
-        <td>Selling fan</td>
-        <td>12-38-56-70-9A-OP</td>
-        <td>127.0.0.2</td>
-        <td>21-06-21</td>
-        <td>20</td>
-    </tr>
-    <tr>
-      <td>Total</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>240</td>
-    </tr>
+              </tr>
+              <tr>
+                <td>Refigerator</td>
+                <td>10-03-56-78-9F-FB</td>
+                <td>127.0.0.2</td>
+                <td>21-06-01</td>
+                <td>80</td>
+              </tr>
+              <tr>
+                <td>Selling fan</td>
+                <td>12-38-56-70-9A-OP</td>
+                <td>127.0.0.2</td>
+                <td>21-06-21</td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td>Total</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>290</td>
+              </tr>
             </table>
           </div>
           <div class="grap-content">
             <div class="grap">
-              <h2>Hello world</h2>
               <canvas id="mychart"></canvas>
             </div>
-            <div class="device"></div>
+            <div class="device">
+              <input name="device" placeholder="name" />
+              <input name="ip" placeholder="IP" />
+              <button class="adddevice-btn">ADD DEVICE</button>
+            </div>
           </div>
         </div>
       </div>
@@ -128,41 +121,47 @@
   <script>
     let links = document.querySelectorAll("a");
     let bodyid = document.querySelector("body").id;
-   
-    for(let link of links){
-      if(link.dataset.active == bodyid){
-        console.log(link)
-        link.classList.add("active")
+
+    for (let link of links) {
+      if (link.dataset.active == bodyid) {
+        link.classList.add("active");
+      }
     }
-}
 
-const config = {
-    type: 'line',
-    data: data,
-    options: {}
-  };
-    
-const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
+    const labels = ["January", "February", "March", "April", "May", "June"];
 
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'My First dataset',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45],
-    }]
-  };
-  const mychart = new Chart(
-  document.getElementById("mychart"), config
-);
-
+    const data = {
+      labels: ["TV", "Washer", "Refriregator", "Selling fan"],
+      datasets: [
+        {
+          label: "Power Consumption",
+          data: [50, 60, 80, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 205, 86)",
+            "rgb(253, 228, 0)",
+            "rgb(54, 162, 235)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    };
+    const config = {
+      type: "doughnut",
+      data: data,
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "Power Consumption",
+            padding: {
+              top: 10,
+              bottom: 30,
+            },
+          },
+        },
+      },
+    };
+    const mychart = new Chart(document.getElementById("mychart"), config);
   </script>
 </html>
