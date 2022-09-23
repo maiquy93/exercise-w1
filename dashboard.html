@@ -40,7 +40,7 @@
           </li>
           <li>
             <i class="fa-regular fa-clock icon"></i>
-            <a data-active="logs" class="option" href="logs.html">Logs</a>
+            <a data-active="logs" class="option logs" href="logs.html">Logs</a>
           </li>
           <li>
             <i class="fa-solid fa-gear icon"></i>
@@ -59,66 +59,36 @@
         </div>
         <div class="content">
           <div class="table-content">
-            <table>
-              <tr>
-                <th>Device</th>
-                <th>MAC address</th>
-                <th>IP</th>
-                <th>Created date</th>
-                <th>Power Consumption (kW/h)</th>
-              </tr>
-              <tr>
-                <td>TV</td>
-                <td>12-34-56-78-9A-BC</td>
-                <td>127.0.0.2</td>
-                <td>21-05-31</td>
-                <td>50</td>
-              </tr>
-              <tr>
-                <td>Wasther</td>
-                <td>12-38-06-78-9A-GC</td>
-                <td>127.0.0.3</td>
-                <td>21-03-01</td>
-                <td>60</td>
-              </tr>
-              <tr>
-                <td>Refigerator</td>
-                <td>10-03-56-78-9F-FB</td>
-                <td>127.0.0.2</td>
-                <td>21-06-01</td>
-                <td>80</td>
-              </tr>
-              <tr>
-                <td>Selling fan</td>
-                <td>12-38-56-70-9A-OP</td>
-                <td>127.0.0.2</td>
-                <td>21-06-21</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>290</td>
-              </tr>
+            <table id="dashboardTable">
+                <tr>
+                  <th>Device</th>
+                  <th>MAC Address</th>
+                  <th>IP</th>
+                  <th>Create Date</th>
+                  <th>Power Consumption (kW/h)</th>
+                </tr>
+              <tbody>
+              </tbody>
             </table>
           </div>
           <div class="grap-content">
             <div class="grap">
               <canvas id="mychart"></canvas>
             </div>
-            <div class="device">
-              <input name="device" placeholder="name" />
-              <input name="ip" placeholder="IP" />
-              <button class="adddevice-btn">ADD DEVICE</button>
-            </div>
+            <form class="device">
+              <input name="device" placeholder="name" id="deviceName" required/>
+              <input  placeholder="IP"  id="deviceIP" required/>
+              <input  placeholder="Power"  id="devicePower" />
+              <button type="submit" class="adddevice-btn" onclick="getNewDevive(event)">ADD DEVICE</button>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </body>
   <script>
+
+//active link
     let links = document.querySelectorAll("a");
     let bodyid = document.querySelector("body").id;
 
@@ -127,20 +97,109 @@
         link.classList.add("active");
       }
     }
+//table render
+let initalDevice = [{
+  device: "TV",
+  MACaddress: "00:12-34-56-78-9A-BC",
+  ip: "127.0.0.1",
+  createdAt: "2021-05-31",
+  power: "50"
+},
+  {
+  device: "Washer",
+  MACaddress: "00:12-34-56-78-9A-FE",
+  ip: "127.0.0.2",
+  createdAt: "2021-05-31",
+  power: "60"
+  },
+  {
+  device: "Refrigerator",
+  MACaddress: "00:12-34-56-78-9A-DD",
+  ip: "127.0.0.3",
+  createdAt: "2021-05-31",
+  power: "80"
+  },
+  {
+  device: "Selling fan",
+  MACaddress: "00:12-34-56-78-9A-BA",
+  ip: "127.0.0.4",
+  createdAt: "2021-05-31",
+  power: "100"
+  },
+]
+localStorage.setItem("deviceData",
+JSON.parse(localStorage.getItem("deviceData")) ? localStorage.getItem("deviceData") : JSON.stringify(initalDevice));
+let currentDevice = JSON.parse(localStorage?.getItem("deviceData"));
+
+const table = document.querySelector("#dashboardTable");
+
+const body = table.querySelector("tbody");
+
+// Create tbody rows
+currentDevice.forEach(obj => {
+  // Create row
+  const row = document.createElement("tr");
+  body.append(row);
+  
+  // Create row element
+  for (const key in obj) {
+    const value = document.createElement("td");
+    value.innerText = obj[key];
+    row.append(value);
+  }
+});
+function getNewDevive(event){
+  event.preventDefault();
+  let deviceName =  document.getElementById("deviceName").value;
+  let deviceIP = document.getElementById("deviceIP").value;
+  let devicePower = document.getElementById("devicePower").value;
+  let newDevice = {
+    device: deviceName,
+    MACaddress: "",
+    ip: deviceIP,
+    createdAt: "",
+    power: devicePower,
+  };
+  let currentDevice = JSON.parse(localStorage?.getItem("deviceData"));
+  let newDeviceData = [...currentDevice, newDevice];
+  localStorage.setItem("deviceData", JSON.stringify(newDeviceData));
+  location.reload();
+}
+
+//chart render
+var randomColor = Math.floor(Math.random()*16777215).toString(16); //random a hex color
+let mylabel = [];
+let myData = [];
+let myColor = [];
+currentDevice.forEach(device => {
+  mylabel.push(device.device);
+  myData.push(device.power);
+  myColor.push(randomColor);
+});
 
     const labels = ["January", "February", "March", "April", "May", "June"];
-
     const data = {
-      labels: ["TV", "Washer", "Refriregator", "Selling fan"],
+      labels: mylabel,
       datasets: [
         {
           label: "Power Consumption",
-          data: [50, 60, 80, 100],
+          data: myData,
           backgroundColor: [
             "rgb(255, 99, 132)",
             "rgb(255, 205, 86)",
             "rgb(253, 228, 0)",
             "rgb(54, 162, 235)",
+            "rgb(54, 162, 189)",
+            "rgb(54, 122, 189)",
+            "rgb(253, 228, 22)",
+            "rgb(233, 128, 0)",
+            "rgb(213, 128, 233)",
+            "rgb(23, 128, 233)",
+            "rgb(123, 128, 123)",
+            "rgb(33, 128, 33)",
+            "rgb(23, 128, 33)",
+            "rgb(133, 128, 133)",
+            "rgb(213, 128, 200)",
           ],
           hoverOffset: 4,
         },
@@ -163,5 +222,6 @@
       },
     };
     const mychart = new Chart(document.getElementById("mychart"), config);
+
   </script>
 </html>

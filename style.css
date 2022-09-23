@@ -8,9 +8,11 @@
 @keyframes spin {
   from {
     transform: rotate(0deg);
+    /* font-size: 14px; */
   }
   to {
     transform: rotate(360deg);
+    font-size: 24px;
   }
 }
 #logo-icon {
@@ -122,23 +124,37 @@ input:focus {
   transition: all 0.2s;
   z-index: 999;
 }
-nav a:hover {
+
+
+nav li:hover > .icon{
+  animation: spin 0.3s;
+  transition: all 0.3s;
+  /* color: blue; */
+}
+nav a:hover{
   position: relative;
   margin: 0;
-  padding: 2em 0 1em;
+  /* padding: 2em 0 1em; */
   color: blue;
   color: rgba(200, 200, 255, 0.5);
   text-shadow: 0 0 2px blue, 0 0 2px blue, 0 0 2px blue;
-  text-align: center;
+  /* text-align: center; */
   font-weight: normal;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s;
 }
+nav li{
+  padding: 5px 5px;
+  width: 100%;
+ 
+}
 
-nav a:any-link ~ .icon {
-  animation: spin 0.3s;
-  transition: all 0.3s;
+nav a{  
+  padding: 3px 3px;
+}
+.logs{
+  padding-right: 30px;
 }
 nav a.active {
   color: rgb(15, 15, 221);
