@@ -12,7 +12,7 @@
   }
   to {
     transform: rotate(360deg);
-    font-size: 24px;
+    font-size: 20px;
   }
 }
 #logo-icon {
@@ -125,13 +125,12 @@ input:focus {
   z-index: 999;
 }
 
-
-nav li:hover > .icon{
+nav li:hover > .icon {
   animation: spin 0.3s;
   transition: all 0.3s;
   /* color: blue; */
 }
-nav a:hover{
+nav a:hover {
   position: relative;
   margin: 0;
   /* padding: 2em 0 1em; */
@@ -144,16 +143,15 @@ nav a:hover{
   -moz-transition: all 0.3s;
   transition: all 0.3s;
 }
-nav li{
+nav li {
   padding: 5px 5px;
   width: 100%;
- 
 }
 
-nav a{  
+nav a {
   padding: 3px 3px;
 }
-.logs{
+.logs {
   padding-right: 30px;
 }
 nav a.active {
@@ -267,6 +265,16 @@ nav ul li {
   text-align: center;
   padding: 8px;
 }
+/* Warning */
+.warning {
+  display: none;
+}
+.show {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: red;
+}
 #check {
   display: none;
 }
@@ -368,9 +376,15 @@ nav ul li {
   .device {
     height: 30vh;
   }
+  .nav-container {
+    width: 30%;
+  }
 }
 @media (max-width: 375px) {
   .grap {
     height: 50vh;
+  }
+  .nav-container {
+    width: 30%;
   }
 }

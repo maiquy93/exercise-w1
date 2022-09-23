@@ -60,15 +60,14 @@
         <div class="content">
           <div class="table-content">
             <table id="dashboardTable">
-                <tr>
-                  <th>Device</th>
-                  <th>MAC Address</th>
-                  <th>IP</th>
-                  <th>Create Date</th>
-                  <th>Power Consumption (kW/h)</th>
-                </tr>
-              <tbody>
-              </tbody>
+              <tr>
+                <th>Device</th>
+                <th>MAC Address</th>
+                <th>IP</th>
+                <th>Create Date</th>
+                <th>Power Consumption (kW/h)</th>
+              </tr>
+              <tbody></tbody>
             </table>
           </div>
           <div class="grap-content">
@@ -76,10 +75,32 @@
               <canvas id="mychart"></canvas>
             </div>
             <form class="device">
-              <input name="device" placeholder="name" id="deviceName" required/>
-              <input  placeholder="IP"  id="deviceIP" required/>
-              <input  placeholder="Power"  id="devicePower" />
-              <button type="submit" class="adddevice-btn" onclick="getNewDevive(event)">ADD DEVICE</button>
+              <input
+                name="device"
+                placeholder="name"
+                id="deviceName"
+                onchange="removeDeviceWarning()"
+                required
+              />
+              <span class="warning deviceWarning">Enter Device</span>
+              <input
+                placeholder="IP"
+                id="deviceIP"
+                onchange="removeIPWarning()"
+                required
+              />
+              <span class="warning ipWarning">Enter device IP</span>
+              <input placeholder="Power" id="devicePower" />
+              <span class="warning powerWarning"
+                >Enter an number or decimal</span
+              >
+              <button
+                type="submit"
+                class="adddevice-btn"
+                onclick="getNewDevive(event)"
+              >
+                ADD DEVICE
+              </button>
             </form>
           </div>
         </div>
@@ -87,8 +108,7 @@
     </div>
   </body>
   <script>
-
-//active link
+    //active link
     let links = document.querySelectorAll("a");
     let bodyid = document.querySelector("body").id;
 
@@ -97,85 +117,138 @@
         link.classList.add("active");
       }
     }
-//table render
-let initalDevice = [{
-  device: "TV",
-  MACaddress: "00:12-34-56-78-9A-BC",
-  ip: "127.0.0.1",
-  createdAt: "2021-05-31",
-  power: "50"
-},
-  {
-  device: "Washer",
-  MACaddress: "00:12-34-56-78-9A-FE",
-  ip: "127.0.0.2",
-  createdAt: "2021-05-31",
-  power: "60"
-  },
-  {
-  device: "Refrigerator",
-  MACaddress: "00:12-34-56-78-9A-DD",
-  ip: "127.0.0.3",
-  createdAt: "2021-05-31",
-  power: "80"
-  },
-  {
-  device: "Selling fan",
-  MACaddress: "00:12-34-56-78-9A-BA",
-  ip: "127.0.0.4",
-  createdAt: "2021-05-31",
-  power: "100"
-  },
-]
-localStorage.setItem("deviceData",
-JSON.parse(localStorage.getItem("deviceData")) ? localStorage.getItem("deviceData") : JSON.stringify(initalDevice));
-let currentDevice = JSON.parse(localStorage?.getItem("deviceData"));
+    //table render
+    let initalDevice = [
+      {
+        device: "TV",
+        MACaddress: "00:12-34-56-78-9A-BC",
+        ip: "127.0.0.1",
+        createdAt: "2021-05-31",
+        power: "50",
+      },
+      {
+        device: "Washer",
+        MACaddress: "00:12-34-56-78-9A-FE",
+        ip: "127.0.0.2",
+        createdAt: "2021-05-31",
+        power: "60",
+      },
+      {
+        device: "Refrigerator",
+        MACaddress: "00:12-34-56-78-9A-DD",
+        ip: "127.0.0.3",
+        createdAt: "2021-05-31",
+        power: "80",
+      },
+      {
+        device: "Selling fan",
+        MACaddress: "00:12-34-56-78-9A-BA",
+        ip: "127.0.0.4",
+        createdAt: "2021-05-31",
+        power: "100",
+      },
+    ];
+    localStorage.setItem(
+      "deviceData",
+      JSON.parse(localStorage.getItem("deviceData"))
+        ? localStorage.getItem("deviceData")
+        : JSON.stringify(initalDevice)
+    );
+    let currentDevice = JSON.parse(localStorage?.getItem("deviceData"));
 
-const table = document.querySelector("#dashboardTable");
+    const table = document.querySelector("#dashboardTable");
 
-const body = table.querySelector("tbody");
+    const body = table.querySelector("tbody");
 
-// Create tbody rows
-currentDevice.forEach(obj => {
-  // Create row
-  const row = document.createElement("tr");
-  body.append(row);
-  
-  // Create row element
-  for (const key in obj) {
-    const value = document.createElement("td");
-    value.innerText = obj[key];
-    row.append(value);
-  }
-});
-function getNewDevive(event){
-  event.preventDefault();
-  let deviceName =  document.getElementById("deviceName").value;
-  let deviceIP = document.getElementById("deviceIP").value;
-  let devicePower = document.getElementById("devicePower").value;
-  let newDevice = {
-    device: deviceName,
-    MACaddress: "",
-    ip: deviceIP,
-    createdAt: "",
-    power: devicePower,
-  };
-  let currentDevice = JSON.parse(localStorage?.getItem("deviceData"));
-  let newDeviceData = [...currentDevice, newDevice];
-  localStorage.setItem("deviceData", JSON.stringify(newDeviceData));
-  location.reload();
-}
+    // Create tbody rows
+    currentDevice.forEach(obj => {
+      // Create row
+      const row = document.createElement("tr");
+      body.append(row);
 
-//chart render
-var randomColor = Math.floor(Math.random()*16777215).toString(16); //random a hex color
-let mylabel = [];
-let myData = [];
-let myColor = [];
-currentDevice.forEach(device => {
-  mylabel.push(device.device);
-  myData.push(device.power);
-  myColor.push(randomColor);
-});
+      // Create row element
+      for (const key in obj) {
+        const value = document.createElement("td");
+        value.innerText = obj[key];
+        row.append(value);
+      }
+    });
+    //insert total
+    let total = 0;
+    currentDevice.forEach(device => {
+      total = Number(total) + Number(device.power);
+    });
+    let row = table.insertRow(currentDevice.length + 1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    cell1.innerHTML = "Total";
+    cell2.innerHTML = "";
+    cell3.innerHTML = "";
+    cell4.innerHTML = "";
+    cell5.innerHTML = total;
+
+    function getNewDevive(event) {
+      event.preventDefault();
+      let deviceName = document.getElementById("deviceName").value;
+      let deviceIP = document.getElementById("deviceIP").value;
+      let devicePower = document.getElementById("devicePower").value;
+      const numberRegex = /^\d*(\.\d+)?$/gm;
+      if (deviceName && deviceIP && devicePower.match(numberRegex)) {
+        let newDevice = {
+          device: deviceName,
+          MACaddress: "",
+          ip: deviceIP,
+          createdAt: "",
+          power: Number(devicePower),
+        };
+        let currentDevice = JSON.parse(localStorage?.getItem("deviceData"));
+        let newDeviceData = [...currentDevice, newDevice];
+        localStorage.setItem("deviceData", JSON.stringify(newDeviceData));
+        location.reload();
+      } else {
+        if (!deviceName) {
+          let deviceWarning = document.querySelector(".deviceWarning");
+          deviceWarning.classList.add("show");
+        }
+        if (!deviceIP) {
+          let ipWarning = document.querySelector(".ipWarning");
+          ipWarning.classList.add("show");
+        }
+        if (!devicePower.match(numberRegex)) {
+          let powerWarning = document.querySelector(".powerWarning");
+          powerWarning.classList.add("show");
+        }
+      }
+    }
+
+    //remove warning onchange
+    function removeDeviceWarning() {
+      let deviceWarning = document.querySelector(".deviceWarning");
+      let ipWarning = document.querySelector(".ipWarning");
+      let powerWarning = document.querySelector(".powerWarning");
+      deviceWarning.classList.remove("show");
+    }
+
+    function removeIPWarning() {
+      let deviceWarning = document.querySelector(".deviceWarning");
+      let ipWarning = document.querySelector(".ipWarning");
+      let powerWarning = document.querySelector(".powerWarning");
+      ipWarning.classList.remove("show");
+    }
+
+    //chart render
+    var randomColor = Math.floor(Math.random() * 16777215).toString(16); //random a hex color
+    let mylabel = [];
+    let myData = [];
+    let myColor = [];
+    currentDevice.forEach(device => {
+      mylabel.push(device.device);
+      myData.push(device.power);
+      myColor.push(randomColor);
+    });
 
     const labels = ["January", "February", "March", "April", "May", "June"];
     const data = {
@@ -222,6 +295,5 @@ currentDevice.forEach(device => {
       },
     };
     const mychart = new Chart(document.getElementById("mychart"), config);
-
   </script>
 </html>
