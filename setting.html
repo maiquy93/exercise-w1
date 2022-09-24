@@ -17,7 +17,7 @@
   </head>
   <body id="setting">
     <div class="wrapper">
-      <input type="checkbox" id="check" >
+      <input type="checkbox" id="check" />
       <label for="check" class="checkbtn">
         <i class="fa-solid fa-bars"></i>
       </label>
@@ -33,7 +33,9 @@
         <ul class="nav-list">
           <li>
             <i class="fa-solid fa-circle-nodes"></i>
-            <a data-active="dashboard" class="option" href="dashboard.html">Dashboard</a>
+            <a data-active="dashboard" class="option" href="dashboard.html"
+              >Dashboard</a
+            >
           </li>
           <li>
             <i class="fa-regular fa-clock"></i>
@@ -41,7 +43,9 @@
           </li>
           <li>
             <i class="fa-solid fa-gear"></i>
-            <a data-active="setting" class="option" href="setting.html">Setting</a>
+            <a data-active="setting" class="option" href="setting.html"
+              >Setting</a
+            >
           </li>
         </ul>
       </nav>
@@ -52,22 +56,19 @@
             <span>Welcome John</span>
           </div>
         </div>
-        <div class="content">
-        This is setting page
-        </div>
+        <div class="content">This is setting page</div>
       </div>
     </div>
   </body>
   <script>
     let links = document.querySelectorAll("a");
     let bodyid = document.querySelector("body").id;
-   
-    console.log(links)
-    for(let link of links){
-      if(link.dataset.active == bodyid){
-        console.log(link)
-        link.classList.add("active")
+
+    console.log(links);
+    for (let link of links) {
+      if (link.dataset.active == bodyid) {
+        link.classList.add("active");
+      }
     }
-}
   </script>
 </html>

@@ -196,12 +196,13 @@
       let deviceIP = document.getElementById("deviceIP").value;
       let devicePower = document.getElementById("devicePower").value;
       const numberRegex = /^\d*(\.\d+)?$/gm;
+
       if (deviceName && deviceIP && devicePower.match(numberRegex)) {
         let newDevice = {
           device: deviceName,
-          MACaddress: "",
+          MACaddress: genMAC(),
           ip: deviceIP,
-          createdAt: "",
+          createdAt: formatDate(Date.now()),
           power: Number(devicePower),
         };
         let currentDevice = JSON.parse(localStorage?.getItem("deviceData"));
@@ -240,14 +241,14 @@
     }
 
     //chart render
-    var randomColor = Math.floor(Math.random() * 16777215).toString(16); //random a hex color
+
     let mylabel = [];
     let myData = [];
-    let myColor = [];
+    let myColor = [...defaultColor];
     currentDevice.forEach(device => {
       mylabel.push(device.device);
       myData.push(device.power);
-      myColor.push(randomColor);
+      myColor.push(`#${randomColor()}`);
     });
 
     const labels = ["January", "February", "March", "April", "May", "June"];
@@ -257,23 +258,7 @@
         {
           label: "Power Consumption",
           data: myData,
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(255, 205, 86)",
-            "rgb(253, 228, 0)",
-            "rgb(54, 162, 235)",
-            "rgb(54, 162, 189)",
-            "rgb(54, 122, 189)",
-            "rgb(253, 228, 22)",
-            "rgb(233, 128, 0)",
-            "rgb(213, 128, 233)",
-            "rgb(23, 128, 233)",
-            "rgb(123, 128, 123)",
-            "rgb(33, 128, 33)",
-            "rgb(23, 128, 33)",
-            "rgb(133, 128, 133)",
-            "rgb(213, 128, 200)",
-          ],
+          backgroundColor: myColor,
           hoverOffset: 4,
         },
       ],

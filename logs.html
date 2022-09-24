@@ -17,7 +17,7 @@
   </head>
   <body id="logs">
     <div class="wrapper">
-      <input type="checkbox" id="check" >
+      <input type="checkbox" id="check" />
       <label for="check" class="checkbtn">
         <i class="fa-solid fa-bars"></i>
       </label>
@@ -33,7 +33,9 @@
         <ul class="nav-list">
           <li>
             <i class="fa-solid fa-circle-nodes icon"></i>
-            <a data-active="dashboard" class="option" href="dashboard.html">Dashboard</a>
+            <a data-active="dashboard" class="option" href="dashboard.html"
+              >Dashboard</a
+            >
           </li>
           <li>
             <i class="fa-regular fa-clock icon"></i>
@@ -41,7 +43,9 @@
           </li>
           <li>
             <i class="fa-solid fa-gear icon"></i>
-            <a data-active="setting" class="option" href="setting.html">Setting</a>
+            <a data-active="setting" class="option" href="setting.html"
+              >Setting</a
+            >
           </li>
         </ul>
       </nav>
@@ -52,19 +56,134 @@
             <span>Welcome John</span>
           </div>
         </div>
-        <div class="content">This is logs page</div>
+        <div class="content">
+          <div class="log-header">
+            <h3 class="logs-title">Action logs</h3>
+            <div class="search-box">
+              <input placeholder="name" class="search-input" id="search" />
+              <button class="search-btn" onclick="findByName()">Search</button>
+            </div>
+          </div>
+          <div class="logs-content">
+            <table id="catTable" class="logs-table">
+              <thead>
+                <tr>
+                  <th data-sort="id">DeviceID#</th>
+                  <th data-sort="name">Name</th>
+                  <th data-sort="action">Action</th>
+                  <th data-sort="date">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4"><i>Loading...</i></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="table-nav">
+              <button id="prevButton" class="tablebtn" onclick="previousPage()">
+                Previous
+              </button>
+              <button id="nextButton" class="tablebtn" onclick="nextPage()">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
   <script>
     let links = document.querySelectorAll("a");
     let bodyid = document.querySelector("body").id;
-   
-    console.log(links)
-    for(let link of links){
-      if(link.dataset.active == bodyid){
-        link.classList.add("active")
+    for (let link of links) {
+      if (link.dataset.active == bodyid) {
+        link.classList.add("active");
+      }
     }
-}
+    //pagination table
+    document.addEventListener("DOMContentLoaded", init, false);
+
+    let data, table, sortCol;
+    let sortAsc = false;
+    const pageSize = 12;
+    let curPage = 1;
+    //fillter render
+    async function findByName() {
+      table = document.querySelector("#catTable tbody");
+      let searchName = document.getElementById("search").value;
+      let resp = await fetch(
+        "https://632ee52fb7314fc02f4bd348.mockapi.io/api/table/devices"
+      );
+      res = await resp.json();
+      const devices = res[0].devices;
+      if (searchName) {
+        data = devices.filter(device => device.name == searchName);
+        renderTable();
+      } else {
+        data = devices;
+        renderTable();
+      }
+    }
+    //default render
+    async function init() {
+      // Select the table (well, tbody)
+      table = document.querySelector("#catTable tbody");
+      // get the cats
+      let resp = await fetch(
+        "https://632ee52fb7314fc02f4bd348.mockapi.io/api/table/devices"
+      );
+      res = await resp.json();
+      data = res[0].devices;
+      renderTable();
+
+      // listen for sort clicks
+      document.querySelectorAll("#catTable thead tr th").forEach(t => {
+        t.addEventListener("click", sort, false);
+      });
+    }
+
+    function renderTable() {
+      // create html
+      let result = "";
+      data
+        .filter((row, index) => {
+          let start = (curPage - 1) * pageSize;
+          let end = curPage * pageSize;
+          if (index >= start && index < end) return true;
+        })
+        .forEach(c => {
+          result += `<tr>
+        <td>${c.id}</td>
+        <td>${c.name}</td>
+        <td>${c.action}</td>
+        <td>${c.createdAt}</td>
+        </tr>`;
+        });
+      table.innerHTML = result;
+    }
+
+    function sort(e) {
+      let thisSort = e.target.dataset.sort;
+      if (sortCol === thisSort) sortAsc = !sortAsc;
+      sortCol = thisSort;
+      console.log("sort dir is ", sortAsc);
+      data.sort((a, b) => {
+        if (a[sortCol] < b[sortCol]) return sortAsc ? 1 : -1;
+        if (a[sortCol] > b[sortCol]) return sortAsc ? -1 : 1;
+        return 0;
+      });
+      renderTable();
+    }
+
+    function previousPage() {
+      if (curPage > 1) curPage--;
+      renderTable();
+    }
+
+    function nextPage() {
+      if (curPage * pageSize < data.length) curPage++;
+      renderTable();
+    }
   </script>
 </html>

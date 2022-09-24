@@ -250,17 +250,17 @@ nav ul li {
   border-collapse: collapse;
   width: 100%;
 }
-.table-content table tr {
+table tr {
   /* margin-top: 20px; */
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
 }
-.table-content table td {
+table td {
   text-align: center;
   padding: 8px;
 }
-.table-content table th {
+table th {
   border-bottom: 3px solid #dddddd;
   text-align: center;
   padding: 8px;
@@ -278,6 +278,67 @@ nav ul li {
 #check {
   display: none;
 }
+
+/* Logs CSS */
+.log-header {
+  margin-top: 3vh;
+  margin-bottom: 1vh;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+.search-input {
+  border: none;
+  padding: 8px 0;
+  background-color: rgba(250, 235, 215, 0.507);
+  margin-right: 10px;
+}
+.search-btn {
+  border: none;
+  background-color: orange;
+  padding: 8px 10px;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 5px;
+}
+.logs-content {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logs-table {
+  width: 100%;
+  background-color: #fff;
+}
+.logs-table thead {
+  border-bottom: 3px solid #dddddd;
+}
+.logs-table td {
+  text-align: center;
+
+  border-bottom: 1px solid #dddddd;
+}
+.logs-table tr {
+  border: 1px solid #dddddd;
+}
+.table-nav {
+  margin-top: 2vh;
+  display: flex;
+  width: 20%;
+  justify-content: space-between;
+}
+.tablebtn {
+  border: none;
+  padding: 5px 5px;
+  width: 80px;
+  font-size: medium;
+  font-weight: 600;
+  color: #fff;
+  background-color: orange;
+  border-radius: 5px;
+}
+
 @media (max-width: 980px) {
   .checkbtn {
     display: none;
@@ -293,6 +354,10 @@ nav ul li {
     width: 340px;
     height: 180px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  .tablebtn {
+    width: auto;
+    font-size: 14px;
   }
   .checkbtn {
     position: absolute;
@@ -313,6 +378,7 @@ nav ul li {
   nav ul li {
     font-size: 14px;
     margin-left: 10px;
+    width: 100%;
   }
   .logo {
     display: none;
@@ -378,6 +444,23 @@ nav ul li {
   }
   .nav-container {
     width: 30%;
+  }
+  .table-nav {
+    width: 60%;
+  }
+  .tablebtn {
+    font-size: 10px;
+    width: 50px;
+  }
+  .searh-box {
+    width: 60%;
+  }
+  .search-btn {
+    font-size: 10px;
+    width: auto;
+  }
+  .search-input {
+    width: 120px;
   }
 }
 @media (max-width: 375px) {
