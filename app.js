@@ -12,10 +12,11 @@ function login(event) {
   if (
     users.find(user => user.username === username && user.password == password)
   ) {
-    alert("dang nhap thanh cong");
     window.location.href = "dashboard.html";
   } else {
-    alert("dang nhap that bai");
+    const loginWarning = document.querySelector(".loginwarning");
+    console.log(loginWarning);
+    loginWarning.classList.add("nocshow");
   }
 }
 

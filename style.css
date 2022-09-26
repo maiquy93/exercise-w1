@@ -37,7 +37,7 @@
   left: 40%;
   top: 30%;
   width: 340px;
-  height: 180px;
+  height: 22vh;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .login-title {
@@ -69,7 +69,7 @@ input:focus {
   display: flex;
   justify-content: space-between;
   /* width: 80%; */
-  margin: 0 20%;
+  margin: 2vh 20%;
 }
 .login-btn {
   border: none;
@@ -80,6 +80,12 @@ input:focus {
   color: #fff;
   font-weight: 700;
   font-size: 10px;
+}
+.nocshow {
+  margin-top: 1vh;
+  display: block !important;
+  color: red;
+  /* width: 100%; */
 }
 .create-btn {
   background-color: transparent;
@@ -352,7 +358,7 @@ table th {
     left: 10%;
     top: 30%;
     width: 340px;
-    height: 180px;
+    height: 22vh;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
   .tablebtn {
@@ -435,6 +441,9 @@ table th {
   .table-content table {
     margin-top: 30px;
     font-size: 12px;
+  }
+  .form-container {
+    height: 22vh;
   }
   .grap {
     height: 40vh;
